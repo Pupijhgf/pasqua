@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PASQUA</title>
+<style>
+body {
+    margin:0;
+    background:black;
+    color:red;
+    font-family:Consolas;
+    text-align:center;
+    overflow:hidden;
+}
+
+#title {
+    font-size:90px;
+    margin-top:80px;
+    background: linear-gradient(to right, red, black);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+#console {
+    margin-top:50px;
+    font-size:22px;
+    height:200px;
+}
+
+button {
+    font-size:30px;
+    padding:20px 60px;
+    background:darkred;
+    color:white;
+    border:none;
+    cursor:pointer;
+    margin-top:50px;
+}
+
+.glitch {
+    animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(2px, 2px); }
+    25% { transform: translate(-2px, 2px); }
+    50% { transform: translate(-2px, -2px); }
+    75% { transform: translate(2px, -2px); }
+    100% { transform: translate(2px, 2px); }
+}
+</style>
+</head>
+<body>
+
+<div id="title">PASQUA</div>
+
+<div id="console"></div>
+
+<button onclick="start()">AVVIA SISTEMA</button>
+
+<script>
+// suoni finti
+let beep;
+function startBeep() {
+    beep = new Audio("https://www.soundjay.com/button/beep-07.wav");
+    beep.loop = true;
+    beep.play();
+}
+
+function start() {
+    startBeep();
+    document.body.classList.add("glitch");
+    let consoleDiv = document.getElementById("console");
+
+    let lines = [
+        "Connessione al dispositivo...",
+        "IP rilevato: 192.168.0." + Math.floor(Math.random()*255),
+        "Accesso root in corso...",
+        "Download dati personali...",
+        "Trasferimento file...",
+        "Installazione controllo remoto...",
+        "Accesso completato."
+    ];
+
+    let i = 0;
+    let interval = setInterval(function() {
+        consoleDiv.innerHTML += lines[i] + "<br>";
+        i++;
+
+        if (i >= lines.length) {
+            clearInterval(interval);
+            let countdown = 5;
+            let cdInterval = setInterval(function(){
+                consoleDiv.innerHTML = "💥 Attacco imminente: " + countdown + " 💥";
+                countdown--;
+                document.body.style.background = countdown % 2 === 0 ? "black" : "#800000";
+                if(countdown<0){
+                    clearInterval(cdInterval);
+                    beep.pause();
+                    document.body.classList.remove("glitch");
+                    document.body.style.background="black";
+                    consoleDiv.innerHTML="<br><br>😈 SCHERZO! NON È SUCCESSO NULLA 😂";
+                }
+            },1000);
+        }
+    },1000);
+}
+</script>
+
+</body>
+</html>
